@@ -1,27 +1,15 @@
 <script>
+import cart from "../store/CartModel";
+
 export default {
   name: 'Header',
   props: {
-    cart: Array,
-    required: true,
-    default: {},
-
     currency: String,
   },
+
   data() {
-    return {
-      cartPrice: 0,
-    };
-  },
-  watch: {
-    cart(cart) {
-      let val = 0;
-      cart.forEach((item) => {
-        val += item.price * item.amount;
-      });
-      this.cartPrice = val;
-    },
-  },
+    return { cart };
+  }
 }
 </script>
 
@@ -34,6 +22,6 @@ export default {
 
 <template>
   <div class="header">
-    <h3>Товаров в корзине на: {{ cartPrice }} {{ currency }}</h3>
+    <h3>Товаров в корзине на: {{ cart.getFullPrice() }} {{ currency }}</h3>
   </div>
 </template>

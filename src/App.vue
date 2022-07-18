@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header :cart="cart" :currency="currency"></Header>
+    <Header :currency="currency"></Header>
     <List :currency="currency"/>
-    <Cart :cart="cart"/>
+    <Cart :currency="currency"/>
   </div>
 </template>
 
@@ -15,7 +15,6 @@ export default {
   name: 'App',
   data() {
     return {
-      cart: [],
       currency: 'VGTB',
     };
   },
