@@ -1,27 +1,63 @@
 <template>
   <div id="app">
-    <Header :currency="currency"></Header>
-    <List :currency="currency"/>
-    <Cart :currency="currency"/>
+    <div class="form">
+      <form @submit.prevent.stop="send">
+        <div>
+          <input placeholder="Цена" :value="price" @input="setPrice">
+          <label>{{ price }}</label>
+        </div><div>
+          <input placeholder="Кол-во" :value="amount" @input="setAmount">
+          <label>{{ amount }}</label>
+        </div><div>
+          <input :value="summa" disabled>
+          <label>{{ summa }}</label>
+        </div><div>
+          <button type="submit">отпрвить</button>
+          <pre>{{ localStorage }}</pre>
+        </div>
+
+      </form>
+    </div>
+
+    <pre class="d9">
+      {{  formatJ( log ) }}
+    </pre>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue';
-import List from './components/List.vue';
-import Cart from './components/Cart.vue';
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'App',
   data() {
     return {
-      currency: 'VGTB',
+      localStorage: window.localStorage.priceData ?? '',
     };
   },
+
+  computed: {
+    ...mapState(['amount', 'price', 'log']),
+    ...mapGetters(['summa'])
+  },
+
+  methods: {
+    ...mapActions(['send']),
+
+    setPrice(val){
+      this.$store.commit('price', val.target.value)
+    },
+
+    setAmount(val){
+      this.$store.commit('amount', val.target.value)
+    },
+
+    formatJ(val){
+      return JSON.stringify(val, null, "  ")
+    }
+  },
+
   components: {
-    Header,
-    List,
-    Cart,
   },
 }
 </script>
@@ -39,5 +75,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 
   color: #2c3e50;
+}
+
+.form form, .labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+label, input {
+  display: block;
 }
 </style>
