@@ -38,7 +38,12 @@ export default new Vuex.Store({
 
   actions: {
     send(ctx, data){
-      api.save({
+      if(this.__sending){
+        return Promise.reject(new Error('double send'))
+      }
+
+      this.__sending = 1
+      return api.save({
         price: ctx.state.price,
         amount:  ctx.state.amount,
         summa:  ctx.getters.summa,
@@ -48,8 +53,11 @@ export default new Vuex.Store({
         ctx.commit('log', {
           reply, storage: window.localStorage.priceData
         })
+        this.__sending = undefined
+      }).catch((err) => {
+        this.__sending = undefined
+        return Promise.reject(err)
       })
-
     }
   },
   modules: {
