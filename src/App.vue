@@ -9,36 +9,38 @@
           <input placeholder="Кол-во" :value="amount" @input="setAmount">
           <label>{{ amount }}</label>
         </div><div>
-          <input :value="summa" disabled>
+          <input placeholder="Сумма" :value="summa" @input="setSumma">
           <label>{{ summa }}</label>
         </div><div>
           <button type="submit">отпрвить</button>
-          <pre>{{ localStorage }}</pre>
+          <pre>{{ copyStorage.priceData }}</pre>
         </div>
 
       </form>
     </div>
 
-    <pre class="d9">
-      {{  formatJ( log ) }}
-    </pre>
+    <div class="out">
+      <div class="out-row" v-for="row in log">
+        <pre>{{ formatJ(row)}}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
+import copyStorage from "../api/copyStorage";
 
 export default {
   name: 'App',
   data() {
     return {
-      localStorage: window.localStorage.priceData ?? '',
+      copyStorage,
     };
   },
 
   computed: {
-    ...mapState(['amount', 'price', 'log']),
-    ...mapGetters(['summa'])
+    ...mapState(['amount', 'price', 'summa', 'log']),
   },
 
   methods: {
@@ -50,6 +52,10 @@ export default {
 
     setAmount(val){
       this.$store.commit('amount', val.target.value)
+    },
+
+    setSumma(val){
+      this.$store.commit('summa', val.target.value)
     },
 
     formatJ(val){
@@ -84,5 +90,14 @@ export default {
 }
 label, input {
   display: block;
+}
+
+.out {
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid black;
+}
+.out-row {
+  margin: 5px 0;
 }
 </style>

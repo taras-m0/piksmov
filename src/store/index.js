@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     price: '',
     amount: '',
+    summa: '',
     nonce: 0,
     log: []
 
@@ -14,12 +15,25 @@ export default new Vuex.Store({
   mutations: {
     price(state, value){
       state.price = parseFloat(value.toString())
-      this.commit('log', `price: ${value}`)
+      this.commit('log', `commit price: ${value}`)
+      this.commit('calcSumma')
     },
 
     amount(state, value){
       state.amount = parseInt(value.toString())
-      this.commit('log', `amount: ${value}`)
+      this.commit('log', `commit amount: ${value}`)
+      this.commit('calcSumma')
+    },
+
+    summa(state, value){
+      state.summa = parseInt(value.toString())
+      this.commit('log', `commit summa: ${value}`)
+      state.price = value
+      state.amount = 1
+    },
+
+    calcSumma(state){
+      state.summa = state.price * state.amount
     },
 
     incr(state){
@@ -31,9 +45,6 @@ export default new Vuex.Store({
     }
   },
   getters:{
-    summa({price, amount}){
-      return price * amount
-    }
   },
 
   actions: {

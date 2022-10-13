@@ -1,3 +1,4 @@
+import copyStorage from "./copyStorage";
 const SLEEP_TIME = 1000;
 
 let runFn = null
@@ -25,6 +26,9 @@ const dataService = {
 const priceApi = {
   save(data) {
     window.localStorage.setItem('priceData', JSON.stringify(data, null, "  "))
+    copyStorage.priceData = JSON.stringify(data, null, "  ")
+
+
     return sleep( data.amount % 2 == 0 ? dataService.replySuccess : dataService.replyFail);
   },
 };
