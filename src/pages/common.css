@@ -1,0 +1,17 @@
+.form form, .labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+label, input {
+    display: block;
+}
+
+.out {
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid black;
+}
+.out-row {
+    margin: 5px 0;
+}
