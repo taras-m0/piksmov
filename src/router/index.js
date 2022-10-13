@@ -11,13 +11,13 @@ export const router = new Router({
   // base: process.env.BASE_URL,
   routes: [
     {
-      path: "/vuex",
-      alias: "/",
+      path: "vuex",
+      alias: "",
       name: "vuex",
       component: UseVuex,
     },
     {
-      path: "/no_vuex",
+      path: "no_vuex",
       name: "no_vuex",
       component: NoVuex,
     },
