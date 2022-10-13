@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     price: '',
     amount: '',
-    summa: '',
+    qty: '',
     nonce: 0,
     log: []
 
@@ -15,25 +15,31 @@ export default new Vuex.Store({
   mutations: {
     price(state, value){
       state.price = parseFloat(value.toString())
-      this.commit('log', `commit price: ${value}`)
       this.commit('calcSumma')
+      setTimeout(() => {
+        this.commit('log', `commit price: ${value}`)
+      }, 300)
+    },
+
+    qty(state, value){
+      state.qty = parseInt(value.toString())
+      this.commit('calcSumma')
+      setTimeout(() => {
+        this.commit('log', `commit qty: ${value}`)
+      })
     },
 
     amount(state, value){
       state.amount = parseInt(value.toString())
-      this.commit('log', `commit amount: ${value}`)
-      this.commit('calcSumma')
-    },
-
-    summa(state, value){
-      state.summa = parseInt(value.toString())
-      this.commit('log', `commit summa: ${value}`)
+      setTimeout(() => {
+        this.commit('log', `commit amount: ${value}`)
+      })
       state.price = value
-      state.amount = 1
+      state.qty = 1
     },
 
     calcSumma(state){
-      state.summa = state.price * state.amount
+      state.amount = state.price * state.qty
     },
 
     incr(state){
@@ -54,19 +60,22 @@ export default new Vuex.Store({
       }
 
       this.__sending = 1
+      ctx.commit('incr')
       return api.save({
         price: ctx.state.price,
-        amount:  ctx.state.amount,
-        summa:  ctx.getters.summa,
+        qty:  ctx.state.qty,
+        amount: ctx.state.amount,
         nonce: ctx.state.nonce
       }).then((reply) => {
-        ctx.commit('incr')
         ctx.commit('log', {
           reply, storage: window.localStorage.priceData
         })
         this.__sending = undefined
       }).catch((err) => {
         this.__sending = undefined
+        ctx.commit('log', {
+          err, storage: window.localStorage.priceData
+        })
         return Promise.reject(err)
       })
     }

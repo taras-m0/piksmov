@@ -6,11 +6,11 @@
           <input placeholder="Цена" :value="price" @input="setPrice">
           <label>{{ price }}</label>
         </div><div>
-          <input placeholder="Кол-во" :value="amount" @input="setAmount">
-          <label>{{ amount }}</label>
+          <input placeholder="Кол-во" :value="qty" @input="setQty">
+          <label>{{ qty }}</label>
         </div><div>
-          <input placeholder="Сумма" :value="summa" @input="setSumma">
-          <label>{{ summa }}</label>
+          <input placeholder="Сумма" :value="amount" @input="setAmount">
+          <label>{{ amount }}</label>
         </div><div>
           <button type="submit">отпрвить</button>
           <pre>{{ copyStorage.priceData }}</pre>
@@ -40,7 +40,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['amount', 'price', 'summa', 'log']),
+    ...mapState(['amount', 'price', 'qty', 'log']),
   },
 
   methods: {
@@ -50,12 +50,12 @@ export default {
       this.$store.commit('price', val.target.value)
     },
 
-    setAmount(val){
-      this.$store.commit('amount', val.target.value)
+    setQty(val){
+      this.$store.commit('qty', val.target.value)
     },
 
-    setSumma(val){
-      this.$store.commit('summa', val.target.value)
+    setAmount(val){
+      this.$store.commit('amount', val.target.value)
     },
 
     formatJ(val){

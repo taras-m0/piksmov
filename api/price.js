@@ -1,11 +1,8 @@
 import copyStorage from "./copyStorage";
 const SLEEP_TIME = 1000;
 
-let runFn = null
 
 function sleep(fn) {
-
-
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(fn());
@@ -25,11 +22,14 @@ const dataService = {
 
 const priceApi = {
   save(data) {
-    window.localStorage.setItem('priceData', JSON.stringify(data, null, "  "))
-    copyStorage.priceData = JSON.stringify(data, null, "  ")
+    if(data.qty % 2 == 0){
+      window.localStorage.setItem('priceData', JSON.stringify(data, null, "  "))
+      copyStorage.priceData = JSON.stringify(data, null, "  ")
+      return sleep(  dataService.replySuccess );
 
-
-    return sleep( data.amount % 2 == 0 ? dataService.replySuccess : dataService.replyFail);
+    }else {
+      return sleep( dataService.replyFail);
+    }
   },
 };
 export default priceApi;
