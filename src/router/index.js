@@ -7,17 +7,17 @@ import NoVuex from "../pages/NoVuex";
 Vue.use(Router);
 
 export const router = new Router({
-  mode: "history",
+  // mode: "history",
   // base: process.env.BASE_URL,
   routes: [
     {
-      path: "vuex",
-      alias: "",
+      path: "/vuex",
+      alias: "/",
       name: "vuex",
       component: UseVuex,
     },
     {
-      path: "no_vuex",
+      path: "/no_vuex",
       name: "no_vuex",
       component: NoVuex,
     },
